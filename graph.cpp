@@ -48,7 +48,7 @@ void Graph:: insertGraph(const std::string& filename) {
     }
 
     file.close();
-    this->reprGraph("inputGraph.dot");
+    reprGraph("inputGraph.dot");
 }
 void Graph::reprGraph(const std::string& filename) {
     if (adj.empty()) {
@@ -84,10 +84,10 @@ void Graph::generateGraph(const std::string& filename) {
 
 void Graph::print() {
     std::cout << "Printing graph:" << std::endl;
-    if (adj.empty()) {
+    if (!adj.empty()) {
         for (auto v : _vertices) {
             std::cout << "Adjacency list of vertex " << v._label << ": ";
-            for (auto element : adj.at(v._label)){
+            for (auto element : adj[v._label]){
                 std::cout << element << " ";
             }
             std::cout << std::endl;
@@ -128,9 +128,7 @@ void Graph::APUtilDFS(int u, std::vector<int>& disc, std::vector<int>& low, std:
 }
 void Graph::findAPs_Tarjan(){
     std::vector<int> disc(_vertices.size(), -1), low(_vertices.size(), -1), parent(_vertices.size(), -1);
-	//std::vector<bool> articulation_Point(_vertices.size(), false);	//Avoids cross-edge
-
-	for(int i = 0; i < _vertices.size(); ++i){
+    for(int i = 0; i < _vertices.size(); ++i){
 		if(disc[i] == -1){
 			APUtilDFS(i,disc,low,parent);
         }
@@ -171,10 +169,3 @@ void Graph::drawAP(const std::string& filename){
 }
 
 
-int main() {
-    Graph obj;
-    obj.insertGraph("graph.txt");
-    obj.findAPs_Tarjan();
-    obj.printAP();
-    return 0;
-}
